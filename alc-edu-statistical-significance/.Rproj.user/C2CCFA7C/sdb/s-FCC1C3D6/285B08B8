@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"analysis\"\nauthor: \"Julian DeGroot-Lutzner & Vickram Salwan\"\ndate: \"12/4/2017\"\noutput: pdf_document\n---\n\n```{r setup, include=FALSE}\nknitr::opts_chunk$set(echo = TRUE)\n```\n\n## Something something\n```{r}\nlibrary(RMySQL)\nconn <- dbConnect(MySQL(), dbname = \"bike_data\", port = 3306)\nneed_help_list <- scan(\"needHelp.txt\", what= \"character\", sep=\"\\n\")\nno_help_list <- scan(\"noHelp.txt\", what= \"character\", sep=\"\\n\")\nhelpers =c()\nfor(j in 1:length(need_help_list)){\n  helpers[j] <- (paste(\"output\", j,\".csv\", sep = \"\"))\n}\n\ndbWriteTable(conn, name = \"bike\", overwrite = TRUE, value = need_help_list[1])\ndbWriteTable(conn, name = \"bike\", append = TRUE, value = helpers[1])\nmessage(\"Finished base files\")\nfor(k in 2:length(need_help_list)){\n  message(paste(\"Attempting: \", need_help_list[k]))\n  dbWriteTable(conn, name = \"bike\", append = TRUE, value = need_help_list[k])\n  message(\"Added.\")\n  message(paste(\"Attempting: \", helpers[k]))\n  dbWriteTable(conn, name = \"bike\", append = TRUE, value = helpers[k])\n  message(\"Added.\")\n}\nmessage(\"Finished files that needed helpers.\")\nfor(l in 1:length(no_help_list)){\n  message(paste(\"Attempting: \", no_help_list[l]))\n  dbWriteTable(conn, name = \"bike\", append = TRUE, value = no_help_list[l])\n  message(\"Added.\")\n}\nmessage(\"Done!\")\n\ndbWriteTable(conn, name = \"bike\", value = csv_list[1])\nfor(i in 2:length(csv_list)){\n  dbWriteTable(conn, name = \"bike\", append = TRUE, value = csv_list[i])\n\n\n  \n# returns number of rows in table \n# 922687\ndbGetQuery(conn, \"SELECT count(*) FROM bike;\")\n\nbike_table <- tbl(conn, \"bike\")\n\n}\n\n\n\n# code for getting every other line\nsed -n 1~2p input.csv > output.csv\n\n#code for counting every line\nsed -n '$=' file.csv\n```\n\n",
+    "created" : 1512726020700.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2726661448",
+    "id" : "285B08B8",
+    "lastKnownWriteTime" : 1512761135,
+    "last_content_update" : 1512761136129,
+    "path" : "~/Documents/math154/ma154-project24-teambike/citi-bikes-analysis/analysis.Rmd",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
